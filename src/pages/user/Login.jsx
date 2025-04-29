@@ -5,6 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { Facebook, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import routes from "@/config/routes";
+import { useGoogleLogin } from "@react-oauth/google";
+import ReactFacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+
 
 const Login = () => {
   const [fields, setFields] = useState({
@@ -27,13 +30,27 @@ const Login = () => {
     }
   };
 
+
+
   const handleLoginFacebook = async () => {
     window.open("http://localhost:3000/api/auth/login/facebook", "_self");
   };
 
-  const handleLoginGoogle = async () => {
-    window.open("http://localhost:3000/api/auth/login/google", "_self");
-  };
+  // const handleLoginGoogle = async () => {
+  //   window.open("http://localhost:3000/api/auth/login/google", "_self");
+  // };
+
+  const googleLogin = useGoogleLogin({
+    flow: "auth-code",
+    onSuccess: async tokenResponse => {
+      console.log(tokenResponse);
+      // call API
+    },
+  });
+  const handleFacebookCallback = (response) => {
+    console.log(response);
+    // call API
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 dark:bg-gray-900 bg-gray-50">
@@ -110,7 +127,7 @@ const Login = () => {
                 <Button
                   variant="outline"
                   className="w-full flex gap-2 items-center justify-center"
-                  onClick={handleLoginGoogle}
+                  onClick={googleLogin}
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24">
                     <path
@@ -132,15 +149,22 @@ const Login = () => {
                   </svg>
                   Continue with Google
                 </Button>
-
-                <Button
-                  variant="outline"
-                  className="w-full flex gap-2 items-center justify-center bg-[#1877F2] text-white hover:bg-[#1877F2]/90"
-                  onClick={handleLoginFacebook}
-                >
-                  <Facebook className="w-5 h-5" />
-                  Continue with Facebook
-                </Button>
+                <ReactFacebookLogin
+                  appId="581350394609511"
+                  autoLoad={false}
+                  fields="name,email,picture"
+                  callback={handleFacebookCallback}
+                  render={renderProps => (
+                    <Button
+                      variant="outline"
+                      className="w-full flex gap-2 items-center justify-center bg-[#1877F2] text-white hover:bg-[#1877F2]/90"
+                      onClick={renderProps.onClick}
+                    >
+                      <Facebook className="w-5 h-5" />
+                      Continue with Facebook
+                    </Button>
+                  )}
+                />
                 <div>
                   <p className="text-sm text-center">
                     Don't have an account?{" "}

@@ -10,27 +10,29 @@ import Spinner from "@/components/ui/Spinner";
 import { CartSidebar } from "./components/CartSidebar";
 import { getCart, updateMultipleProducts } from "./services/cartServices";
 import updateLocalCart from "./lib/updateCart";
-
+import { GoogleOAuthProvider } from '@react-oauth/google';
 function App() {
   const [user, setUser] = useState(null);
   const [checkingAuth, setCheckingAuth] = useState(true);
 
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-    >
-      <BrowserRouter>
-        <AppContent
-          user={user}
-          setUser={setUser}
-          checkingAuth={checkingAuth}
-          setCheckingAuth={setCheckingAuth}
-        />
-      </BrowserRouter>
-    </ThemeProvider>
+    <GoogleOAuthProvider clientId="9634303291-98us83k492ra2lcrq5g11vh7jebua5rq.apps.googleusercontent.com">
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <BrowserRouter>
+          <AppContent
+            user={user}
+            setUser={setUser}
+            checkingAuth={checkingAuth}
+            setCheckingAuth={setCheckingAuth}
+          />
+        </BrowserRouter>
+      </ThemeProvider>
+    </GoogleOAuthProvider>
   );
 }
 

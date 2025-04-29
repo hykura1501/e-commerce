@@ -31,7 +31,7 @@ export const loginGoogle = async (body) => {
 
 export const register = async (body) => {
   try {
-    const res = await api.post(`/users`, body);
+    const res = await api.post(`${AUTH}/register`, body);
     return res;
   } catch (error) {
     return error;
