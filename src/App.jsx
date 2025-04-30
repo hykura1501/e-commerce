@@ -60,7 +60,7 @@ function AppContent({ user, setUser, checkingAuth, setCheckingAuth }) {
       const [cartData, userData] = await Promise.all([getCart(), getMe()]);
       if (cartData.status === 200) {
         setCartItems({
-          items: cartData.data.items,
+          items: cartData.data.cart,
           isLocal: false,
         });
       } else {
@@ -70,7 +70,7 @@ function AppContent({ user, setUser, checkingAuth, setCheckingAuth }) {
         });
       }
       if (userData.status === 200) {
-        setUser(userData.data);
+        setUser(userData.data.user);
         const cart = checkLocalCart();
         if (cart.items.length > 0) {
           const items = cart.items.map((item) => ({

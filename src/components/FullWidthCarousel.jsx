@@ -19,17 +19,17 @@ export function FullWidthCarousel({ setIsOpenCart, products, setCartItems, cartI
     >
       <CarouselContent className="-ml-16">
         {products?.map((item, index) => (
-          <CarouselItem key={item.id} className="pl-16 md:basis-1/4">
+          <CarouselItem key={item.product_id} className="pl-16 md:basis-1/4">
             <div className="h-full grid grid-cols-3 gap-4">
               <Product
                 cartItems={cartItems}
                 setIsOpenCart={setIsOpenCart}
                 setCartItems={setCartItems}
-                key={item?.id}
-                id={item?.id}
-                name={item?.name}
+                key={item?.product_id}
+                id={item?.product_id}
+                name={item?.product_name}
                 price={item?.price}
-                image={item?.images[0].image_url}
+                image={item?.images[0]}
                 discount={item?.discount}
                 tag={item?.tag}
               />

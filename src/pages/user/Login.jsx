@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button";
 import routes from "@/config/routes";
 import { useGoogleLogin } from "@react-oauth/google";
 import ReactFacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-
-
+import * as authServices from "@/services/authServices";
+import { setToken } from "@/lib/token";
 const Login = () => {
   const [fields, setFields] = useState({
     username: "",
@@ -22,7 +22,10 @@ const Login = () => {
     const res = await login({
       ...fields,
     });
+    
     if (res.status === 200) {
+      // set token to local storage
+      setToken(res.data.token);
       navigate("/");
       setError("");
     } else {
@@ -30,21 +33,16 @@ const Login = () => {
     }
   };
 
-
-
-  const handleLoginFacebook = async () => {
-    window.open("http://localhost:3000/api/auth/login/facebook", "_self");
-  };
-
-  // const handleLoginGoogle = async () => {
-  //   window.open("http://localhost:3000/api/auth/login/google", "_self");
-  // };
-
   const googleLogin = useGoogleLogin({
     flow: "auth-code",
     onSuccess: async tokenResponse => {
       console.log(tokenResponse);
       // call API
+      const res = await authServices.loginGoogle({
+        code: tokenResponse.code,
+      })
+
+      console.log(res);
     },
   });
   const handleFacebookCallback = (response) => {

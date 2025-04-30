@@ -13,7 +13,7 @@ export const login = async (body) => {
 
 export const loginFacebook = async (body) => {
   try {
-    const res = await api.get(`${AUTH}/login/facebook`, body);
+    const res = await api.post(`${AUTH}/login/facebook`, body);
     return res;
   } catch (error) {
     return error;
@@ -22,7 +22,7 @@ export const loginFacebook = async (body) => {
 
 export const loginGoogle = async (body) => {
   try {
-    const res = await api.get(`${AUTH}/login/google`, body);
+    const res = await api.post(`${AUTH}/login/google`, body);
     return res;
   } catch (error) {
     return error;

@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import routes from "@/config/routes";
 
 function CategoryItem({ category, level = 0, activePath, onHover }) {
-  const isActive = activePath[level] === category.name;
+  const isActive = activePath[level] === category.category_name;
   const showSubCategories = isActive && category.children;
 
   return (
@@ -20,14 +20,14 @@ function CategoryItem({ category, level = 0, activePath, onHover }) {
           "dark:hover:bg-gray-700 dark:bg-gray-800 dark:text-white dark:hover:text-white"
         )}
         onMouseEnter={() =>
-          onHover([...activePath.slice(0, level), category.name])
+          onHover([...activePath.slice(0, level), category.category_name])
         }
       >
         <Link
           to={`${routes.productCategory}/${category.category_id}`}
           className="flex-1"
         >
-          {category.name}
+          {category.category_name}
         </Link>
         {category.children && <ChevronRight className="h-4 w-4" />}
       </div>
@@ -40,7 +40,7 @@ function CategoryItem({ category, level = 0, activePath, onHover }) {
         >
           {category.children.map((subCategory) => (
             <CategoryItem
-              key={subCategory.name}
+              key={subCategory.category_name}
               category={subCategory}
               level={level + 1}
               activePath={activePath}
@@ -64,7 +64,7 @@ export default function CategoriesNav({ categories }) {
       <ul className="space-y-1 p-2">
         {categories?.map((category) => (
           <CategoryItem
-            key={category.name}
+            key={category.category_name}
             category={category}
             level={0}
             activePath={activePath}

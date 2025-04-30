@@ -63,7 +63,8 @@ const ProductDetail = ({ user, setIsOpenCart, setCartItems, cartItems }) => {
         }),
       ]);
       if (productData.status === 200) {
-        setProduct(productData.data);
+        
+        setProduct(productData.data.product);
       }
       if (reviewsData.status === 200) {
         setReviews(reviewsData.data.reviews);
@@ -148,11 +149,11 @@ const ProductDetail = ({ user, setIsOpenCart, setCartItems, cartItems }) => {
       setIsOpenCart(true);
       return;
     }
-    const response = await addToCart(id);
+    const response = await addToCart(parseInt(id));
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       const cart = await getCart();
-      setCartItems({ items: cart.data.items, isLocal: false });
+      setCartItems({ items: cart.data.cart, isLocal: false });
       setIsOpenCart(true);
     }
   };
@@ -182,7 +183,7 @@ const ProductDetail = ({ user, setIsOpenCart, setCartItems, cartItems }) => {
                       <Card>
                         <CardContent className="flex aspect-square items-center justify-center p-6">
                           <img
-                            src={image.image_url}
+                            src={image}
                             alt={`Product image ${index + 1}`}
                             className="w-full h-full object-cover"
                           />
@@ -230,12 +231,12 @@ const ProductDetail = ({ user, setIsOpenCart, setCartItems, cartItems }) => {
               <div className="flex items-center gap-20">
                 <div>
                   <h3 className="font-semibold mb-2">Category</h3>
-                  <Badge>{product?.categoryName}</Badge>
+                  <Badge>{product?.category?.category_name}</Badge>
                 </div>
                 <div>
                   <h3 className="font-semibold mb-2">Manufacturer</h3>
                   <Badge className="bg-green-600 hover:bg-green-400">
-                    {product?.manufacturerName}
+                    {product?.manufacturer?.manufacturer_name}
                   </Badge>
                 </div>
                 <div>

@@ -24,7 +24,7 @@ export const getProducts = async ({
 
 export const getProduct = async (id) => {
   try {
-    const res = await api.get(`${PRODUCTS}/details?product_id=${id}`);
+    const res = await api.get(`${PRODUCTS}/detail/${id}`);
     return res;
   } catch (error) {
     return error;
@@ -58,9 +58,9 @@ export const deleteProduct = async (id) => {
   }
 };
 
-export const getHomeProducts = async (max) => {
+export const getHomeProducts = async (size) => {
   try {
-    const res = await api.get(`${PRODUCTS}/home?max=${max}`);
+    const res = await api.get(`${PRODUCTS}/special-products?size=${size}`);
     return res;
   } catch (error) {
     return error;

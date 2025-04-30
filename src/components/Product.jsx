@@ -57,10 +57,10 @@ const Product = ({
 
     const response = await addToCart(id);
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       const cart = await getCart();
       setCartItems({
-        items: cart.data.items,
+        items: cart.data.cart,
         isLocal: false,
       });
       setIsOpenCart(true);

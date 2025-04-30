@@ -7,13 +7,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { useState, useRef, useEffect } from "react";
 import CategoriesNav from "@/components/CategoryNav";
 import { logout } from "@/services/authServices";
 import { useNavigate } from "react-router-dom";
 import routes from "@/config/routes";
-import { getCart } from "@/services/cartServices";
 import { getAllCategories } from "@/services/categoryServices";
 import { Input } from "@/components/ui/input";
 import ModeToggle from "@/components/ModeToggle";
@@ -41,7 +40,7 @@ const Header = ({ user, setUser, cartItems, setCartItems, setIsOpenCart }) => {
     const fetchData = async () => {
       const [categoriesData] = await Promise.all([getAllCategories()]);
       if (categoriesData.status === 200) {
-        setCategories(categoriesData.data.categories);
+        setCategories(categoriesData.data.tree_categories);
       }
     };
     fetchData();

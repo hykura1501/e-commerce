@@ -14,7 +14,7 @@ const Home = ({ setIsOpenCart, setCartItems, cartItems }) => {
     const fetchHomeProducts = async (max) => {
       const response = await getHomeProducts(max);
       if (response.status === 200) {
-        setHomeProducts(response.data);
+        setHomeProducts(response.data.products);
       }
     };
     fetchHomeProducts(10);
@@ -37,7 +37,7 @@ const Home = ({ setIsOpenCart, setCartItems, cartItems }) => {
 
       <div>
         <FullWidthCarousel
-          products={homeProducts?.bestSellingProducts}
+          products={homeProducts?.best_seller}
           setIsOpenCart={setIsOpenCart}
           setCartItems={setCartItems}
           cartItems={cartItems}
@@ -57,7 +57,7 @@ const Home = ({ setIsOpenCart, setCartItems, cartItems }) => {
         <FullWidthCarousel
           setIsOpenCart={setIsOpenCart}
           setCartItems={setCartItems}
-          products={homeProducts?.highestDiscountProducts}
+          products={homeProducts?.highest_discount}
           cartItems={cartItems}
         />
       </div>
@@ -76,7 +76,7 @@ const Home = ({ setIsOpenCart, setCartItems, cartItems }) => {
         <FullWidthCarousel
           setIsOpenCart={setIsOpenCart}
           setCartItems={setCartItems}
-          products={homeProducts?.newProducts}
+          products={homeProducts?.new_arrival}
           cartItems={cartItems}
         />
       </div>
@@ -95,7 +95,7 @@ const Home = ({ setIsOpenCart, setCartItems, cartItems }) => {
         <FullWidthCarousel
           setIsOpenCart={setIsOpenCart}
           setCartItems={setCartItems}
-          products={homeProducts?.featuredProducts}
+          products={homeProducts?.featured}
           cartItems={cartItems}
         />
       </div>

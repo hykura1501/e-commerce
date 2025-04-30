@@ -15,9 +15,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProduct } from "@/services/productServices";
 import ProductStatus from "@/components/ProductStatus";
-import capitalFirstLetter from "@/lib/capitalFirstLetter";
 import { getProductReviews } from "@/services/reviewServices";
-import formatDate from "@/lib/formatDate";
 import ProductReview from "@/components/ReviewItem";
 import ProductTag from "@/components/ProductTag";
 
@@ -46,7 +44,7 @@ export default function DetailProduct() {
         }),
       ]);
       if (productData.status === 200) {
-        setProduct(productData.data);
+        setProduct(productData.data.product);
       }
       if (reviewsData.status === 200) {
         setReviews(reviewsData.data.reviews);
