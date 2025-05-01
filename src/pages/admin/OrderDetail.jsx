@@ -26,7 +26,7 @@ export default function OrderDetail() {
     const fetchOrder = async () => {
       const response = await getOrderById(id);
       if (response.status === 200) {
-        setOrder(response.data);
+        setOrder(response.data.order);
       }
     };
     fetchOrder();
@@ -195,12 +195,12 @@ export default function OrderDetail() {
                                 {item?.product?.name}
                               </div>
                               <div className="text-sm text-muted-foreground">
-                                {item?.product?.manufacturer?.name}
+                                {item?.product?.manufacturer?.manufacturer_name}
                               </div>
                             </div>
                           </div>
                           <div className="col-span-2 text-sm">
-                            {item?.product?.category?.name}
+                            {item?.product?.category?.category_name}
                           </div>
                           <div className="col-span-2 text-sm">
                             {item?.quantity}

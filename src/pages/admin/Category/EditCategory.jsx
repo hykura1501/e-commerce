@@ -18,7 +18,7 @@ export default function EditCategory() {
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState({
     super_category_id: 0,
-    name: "",
+    category_name: "",
     description: "",
     thumbnail: [],
     thumbnail_url: "",
@@ -33,16 +33,14 @@ export default function EditCategory() {
 
       if (categoryResponse.status === 200) {
         setCategory({
-          ...categoryResponse.data,
-          thumbnail: [categoryResponse.data.thumbnail]
+          ...categoryResponse.data.category,
+          thumbnail: [categoryResponse.data.category.thumbnail]
         });
       }
 
       if (categoriesResponse.status === 200) {
-        setCategories(categoriesResponse.data.categories);
+        setCategories(categoriesResponse.data.tree_categories);
       }
-
-      
     };
 
     fetchData();
@@ -60,14 +58,14 @@ export default function EditCategory() {
     const formData = new FormData();
     formData.append("thumbnail", category.thumbnail[0]);
     if (category.thumbnail_url) { 
-      formData.append("thumbnail_url", category.thumbnail_url);
+      formData.append("thumbnail", category.thumbnail_url);
     }
 
     if (category.super_category_id && category.super_category_id != 0) { 
       formData.append("super_category_id", category.super_category_id);
     }
 
-    formData.append("name", category.name);
+    formData.append("category_name", category.category_name);
     formData.append("description", category.description);
     
     const response = await updateCategory(id, formData);
@@ -116,7 +114,7 @@ export default function EditCategory() {
               <SelectCategory
                 categories={categories}
                 label="Select super category"
-                selectedCategory={category?.super_category_id ? category.super_category_id : 0}
+                selectedCategory={category?.super_category_id ? category.super_category_id?.toString() : "0"}
                 onChange={handleSelectedCategory}
               />
             </div>
@@ -125,9 +123,9 @@ export default function EditCategory() {
               <Input
                 id="category-name"
                 placeholder="Type category name here..."
-                value={category?.name}
+                value={category?.category_name}
                 onChange={(e) =>
-                  setCategory({ ...category, name: e.target.value })
+                  setCategory({ ...category, category_name: e.target.value })
                 }
               />
             </div>

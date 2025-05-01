@@ -76,9 +76,9 @@ export default function Profile({ user }) {
       if (res.status === 200) {
         setOrders(res.data.orders);
         setPaging({
-          pageSize: res.data.paging.page_size,
-          totalPages: res.data.paging.total_page,
-          totalItems: res.data.paging.total_item,
+          pageSize: res.data.paging.per_page,
+          totalPages: res.data.paging.total_pages,
+          totalItems: res.data.paging.total_items,
         });
       }
     };

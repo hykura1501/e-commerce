@@ -38,18 +38,18 @@ export const getNewCustomerStatistic = async () => {
   }
 }
 
-export const getBestSellingProductStatistic = async (limit) => { 
+export const getBestSellingProductStatistic = async () => { 
   try {
-    const response = await api.get(`/orders/${STATISTIC}s/best-sellers?limit=${limit}`);
+    const response = await api.get(`/orders${STATISTIC}s/best-sellers`);
     return response
   } catch (error) {
     return error
   }
 }
 
-export const getTopCustomerStatistic = async (limit) => { 
+export const getTopCustomerStatistic = async () => { 
   try {
-    const response = await api.get(`/orders/${STATISTIC}s/top-customers?limit=${limit}`);
+    const response = await api.get(`/orders${STATISTIC}s/top-customers`);
     return response
   } catch (error) {
     return error

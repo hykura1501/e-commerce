@@ -75,29 +75,29 @@ export default function DashboardPage() {
       ] = await Promise.all([
         getCategoryStatistic(),
         getManufacturerStatistic(),
-        getBestSellingProductStatistic(10),
-        getTopCustomerStatistic(10),
+        getBestSellingProductStatistic(),
+        getTopCustomerStatistic(),
         getRevenueStatistic(),
         getNewCustomerStatistic(),
         getAllOrders(sort, status, currentPage, paging.pageSize),
       ]);
       if (categoryStatisticData.status === 200) {
-        setCategoryStatistics(categoryStatisticData.data);
+        setCategoryStatistics(categoryStatisticData.data.statistics);
       }
       if (manufacturerStatisticData.status === 200) {
-        setManufacturerStatistics(manufacturerStatisticData.data);
+        setManufacturerStatistics(manufacturerStatisticData.data.statistics);
       }
       if (bestSellingProductStatisticData.status === 200) {
-        setBestSellingProductStatistics(bestSellingProductStatisticData.data);
+        setBestSellingProductStatistics(bestSellingProductStatisticData.data.best_sellers);
       }
       if (topCustomerStatisticData.status === 200) {
-        setTopCustomerStatistics(topCustomerStatisticData.data);
+        setTopCustomerStatistics(topCustomerStatisticData.data.top_customers);
       }
       if (revenueStatisticData.status === 200) {
-        setRevenueStatistics(revenueStatisticData.data);
+        setRevenueStatistics(revenueStatisticData.data.revenues);
       }
       if (newCustomerStatisticData.status === 200) {
-        setNewCustomerStatistics(newCustomerStatisticData.data);
+        setNewCustomerStatistics(newCustomerStatisticData.data.statistics);
       }
       if (ordersData.status === 200) {
         setOrders(ordersData.data.orders);

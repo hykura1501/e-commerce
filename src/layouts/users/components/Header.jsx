@@ -16,6 +16,7 @@ import routes from "@/config/routes";
 import { getAllCategories } from "@/services/categoryServices";
 import { Input } from "@/components/ui/input";
 import ModeToggle from "@/components/ModeToggle";
+import { clearToken } from "@/lib/token";
 
 const Header = ({ user, setUser, cartItems, setCartItems, setIsOpenCart }) => {
   const [showCategories, setShowCategories] = useState(false);
@@ -29,11 +30,9 @@ const Header = ({ user, setUser, cartItems, setCartItems, setIsOpenCart }) => {
   };
 
   const handleLogout = async () => {
-    const res = await logout();
-    if (res.status === 200) {
-      navigate("/");
-      setUser(null);
-    }
+    clearToken();
+    navigate("/");
+    setUser(null);
   };
   const [categories, setCategories] = useState([]);
   useEffect(() => {

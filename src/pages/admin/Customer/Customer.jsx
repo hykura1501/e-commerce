@@ -49,19 +49,17 @@ export default function Customer() {
 
   useEffect(() => {
     const fetchUsers = async ({ currentPage, pageSize, search }) => {
-      console.log(currentPage, pageSize, search);
-
       const response = await getAllUsers({
         page: currentPage,
-        size: pageSize,
+        per_page: pageSize,
         search,
       });
       if (response.status === 200) {
         setUsers(response.data.users);
         setPaging({
-          totalPages: response.data.paging.total_page,
-          pageSize: response.data.paging.page_size,
-          totalItems: response.data.paging.total_item,
+          totalPages: response.data.paging.total_pages,
+          pageSize: response.data.paging.per_page,
+          totalItems: response.data.paging.total_items,
         });
       }
     };

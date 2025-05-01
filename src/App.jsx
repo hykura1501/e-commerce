@@ -64,7 +64,7 @@ function AppContent({ user, setUser, checkingAuth, setCheckingAuth }) {
           isLocal: false,
         });
       } else {
-        setCartItems({
+        setCartItems({ 
           items: checkLocalCart().items,
           isLocal: true,
         });

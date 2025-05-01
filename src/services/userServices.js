@@ -18,9 +18,9 @@ export const getUserById = async (id) => {
   }
 };
 
-export const getAllUsers = async ({page, size, search}) => { 
+export const getAllUsers = async ({page, per_page, search}) => { 
   try {
-    const res = await api.get(`/users?page=${page}&size=${size}&search=${search}`);
+    const res = await api.get(`/users?page=${page}&per_page=${per_page}&search=${search}`);
     return res;
   } catch (error) {
     return error;

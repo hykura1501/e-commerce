@@ -3,8 +3,8 @@ import api from "@/config/axios";
 const PRODUCTS = "/products";
 
 export const getProducts = async ({
-  current_page,
-  page_size,
+  page,
+  per_page,
   search = "",
   tag = "",
   category_id = "",
@@ -14,7 +14,7 @@ export const getProducts = async ({
 }) => {
   try {
     const res = await api.get(
-      `${PRODUCTS}?current_page=${current_page}&page_size=${page_size}&search=${search}&tag=${tag}&category_id=${category_id}&price_min=${price_min}&price_max=${price_max}&order=${order}`
+      `${PRODUCTS}?page=${page}&per_page=${per_page}&search=${search}&tag=${tag}&category_id=${category_id}&price_min=${price_min}&price_max=${price_max}&order=${order}`
     );
     return res;
   } catch (error) {

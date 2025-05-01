@@ -20,12 +20,9 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import {
-  Calendar,
-  Filter,
   Eye,
   Pencil,
   Trash2,
-  ChevronRight,
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
@@ -59,26 +56,26 @@ export default function ProductsPage() {
   const debounceSearchValue = useDebounce(search, 500);
 
   useEffect(() => {
-    const fetchProducts = async ({ current_page, page_size, search }) => {
+    const fetchProducts = async ({ page, per_page, search }) => {
       const response = await getProducts({
-        current_page,
-        page_size,
+        page,
+        per_page,
         search,
         order: order,
       });
       if (response.status === 200) {
         setProducts(response.data.products);
         setPaging({
-          totalPages: response.data.paging.total_page,
-          pageSize: response.data.paging.page_size,
-          totalItems: response.data.paging.total_item,
+          totalPages: response.data.paging.total_pages,
+          pageSize: response.data.paging.per_page,
+          totalItems: response.data.paging.total_items,
         });
       }
     };
 
     fetchProducts({
-      current_page: currentPage,
-      page_size: paging.pageSize,
+      page: currentPage,
+      per_page: paging.pageSize,
       search: debounceSearchValue,
     });
   }, [currentPage, debounceSearchValue, order]);
@@ -90,7 +87,7 @@ export default function ProductsPage() {
 
   const handleDeleteProduct = async (id) => {
     const response = await deleteProduct(id);
-    const newProducts = products.filter((product) => product.id !== id);
+    const newProducts = products.filter((product) => product.product_id !== id);
     setProducts(newProducts);
     setOpen(true);
   };
@@ -228,19 +225,19 @@ export default function ProductsPage() {
                   <TableCell>
                     <div className="flex items-center space-x-3">
                       <img
-                        src={product?.images[0]?.image_url}
-                        alt={product.name}
+                        src={product?.images[0]}
+                        alt={product.product_name}
                         className="h-10 w-10 rounded-md"
                       />
                       <div>
-                        <div className="font-medium">{product.name}</div>
+                        <div className="font-medium">{product.product_name}</div>
                         <div className="text-sm text-muted-foreground">
                           {product.variants}
                         </div>
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell>{product.category}</TableCell>
+                  <TableCell>{product.category.category_name}</TableCell>
                   <TableCell>{product.stock}</TableCell>
                   <TableCell>${product.price}</TableCell>
                   <TableCell>
@@ -249,12 +246,12 @@ export default function ProductsPage() {
                   <TableCell>{formatDate(product?.created_at)}</TableCell>
                   <TableCell>
                     <div className="flex items-center space-x-3">
-                      <Link to={`${routes.detailProduct}/${product.id}`}>
+                      <Link to={`${routes.detailProduct}/${product.product_id}`}>
                         <Button variant="ghost" size="icon">
                           <Eye className="h-4 w-4" />
                         </Button>
                       </Link>
-                      <Link to={`${routes.editProduct}/${product.id}`}>
+                      <Link to={`${routes.editProduct}/${product.product_id}`}>
                         <Button variant="ghost" size="icon">
                           <Pencil className="h-4 w-4" />
                         </Button>
@@ -275,7 +272,7 @@ export default function ProductsPage() {
                           <AlertDialogFooter>
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
                             <AlertDialogAction
-                              onClick={() => handleDeleteProduct(product.id)}
+                              onClick={() => handleDeleteProduct(product.product_id)}
                             >
                               Delete
                             </AlertDialogAction>

@@ -22,7 +22,7 @@ const Login = () => {
     const res = await login({
       ...fields,
     });
-    
+
     if (res.status === 200) {
       // set token to local storage
       setToken(res.data.token);
@@ -42,12 +42,19 @@ const Login = () => {
         code: tokenResponse.code,
       })
 
-      console.log(res);
+      setToken(res.data.token);
+      navigate("/");
     },
   });
-  const handleFacebookCallback = (response) => {
+  const handleFacebookCallback = async (response) => {
     console.log(response);
     // call API
+    const res = await authServices.loginFacebook({
+      access_token: response.accessToken,
+    })
+    console.log(res);
+    setToken(res.data.token);
+    navigate("/");
   }
 
   return (

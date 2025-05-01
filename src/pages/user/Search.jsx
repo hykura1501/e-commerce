@@ -5,7 +5,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 import { SelectGroup, SelectLabel } from "@/components/ui/select";
 
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import {
   Select,
   SelectContent,
@@ -14,13 +14,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { DualRangeSlider } from "@/components/ui/DualRangeSlider";
-import { Badge } from "@/components/ui/badge";
 import { getAllCategories } from "@/services/categoryServices";
 import { getProducts } from "@/services/productServices";
-import ProductTag from "@/components/ProductTag";
-import routes from "@/config/routes";
 import capitalFirstLetter from "@/lib/capitalFirstLetter";
 import Product from "@/components/Product";
 
@@ -58,8 +54,8 @@ export default function SearchPage({ setIsOpenCart, setCartItems, cartItems }) {
       const [categoriesData, productData] = await Promise.all([
         getAllCategories(),
         getProducts({
-          current_page: currentPage,
-          page_size: paging.pageSize,
+          page: currentPage,
+          per_page: paging.pageSize,
           search: keyword,
           price_max,
           price_min,
@@ -69,14 +65,14 @@ export default function SearchPage({ setIsOpenCart, setCartItems, cartItems }) {
         }),
       ]);
       if (categoriesData.status === 200) {
-        setCategories(categoriesData.data.normalCategories);
+        setCategories(categoriesData.data.categories);
       }
       if (productData.status === 200) {
         setProducts(productData.data.products);
         setPaging({
-          pageSize: productData.data.paging.page_size,
-          totalItems: productData.data.paging.total_item,
-          totalPages: productData.data.paging.total_page,
+          pageSize: productData.data.paging.per_page,
+          totalItems: productData.data.paging.total_items,
+          totalPages: productData.data.paging.total_pages,
         });
       }
     };
@@ -162,7 +158,7 @@ export default function SearchPage({ setIsOpenCart, setCartItems, cartItems }) {
                         key={category?.category_id}
                         value={`${category?.category_id}`}
                       >
-                        {category?.name}
+                        {category?.category_name}
                       </SelectItem>
                     ))}
                   </SelectGroup>
@@ -208,14 +204,14 @@ export default function SearchPage({ setIsOpenCart, setCartItems, cartItems }) {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {products?.map((product) => (
                 <Product
-                  key={product.id}
+                  key={product.product_id}
                   cartItems={cartItems}
                   setCartItems={setCartItems}
                   setIsOpenCart={setIsOpenCart}
-                  id={product?.id}
-                  name={product?.name}
+                  id={product?.product_id}
+                  name={product?.product_name}
                   price={product?.price}
-                  image={product?.images[0].image_url}
+                  image={product?.images[0]}
                   discount={product?.discount}
                   tag={product?.tag}
                 />
@@ -225,9 +221,8 @@ export default function SearchPage({ setIsOpenCart, setCartItems, cartItems }) {
           {paging.totalPages > 1 && (
             <div className="p-4 border-t border-border flex items-center justify-between">
               <div className="text-sm text-muted-foreground">
-                {`Showing ${(currentPage - 1) * paging.pageSize + 1}-${
-                  (currentPage - 1) * paging.pageSize + products.length
-                } from ${paging.totalItems} products`}
+                {`Showing ${(currentPage - 1) * paging.pageSize + 1}-${(currentPage - 1) * paging.pageSize + products.length
+                  } from ${paging.totalItems} products`}
               </div>
               <div className="flex items-center space-x-2">
                 <Button

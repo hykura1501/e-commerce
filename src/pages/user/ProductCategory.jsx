@@ -51,9 +51,9 @@ export default function ProductCategory({
       if (response.status === 200) {
         setProducts(response.data.products);
         setPaging({
-          totalPages: response.data.paging.total_page,
-          pageSize: response.data.paging.page_size,
-          totalItems: response.data.paging.total_item,
+          totalPages: response.data.paging.total_pages,
+          pageSize: response.data.paging.per_page,
+          totalItems: response.data.paging.total_items,
         });
       }
     };
@@ -63,13 +63,13 @@ export default function ProductCategory({
   const handleAddToCart = async (product) => {
     if (cartItems.isLocal) {
       const isExisted = cartItems?.items?.some(
-        (item) => item.product.id == product.id
+        (item) => item.product.id == product.product_id
       );
       setCartItems((prev) => {
         let newItems;
         if (isExisted) {
           newItems = prev.items.map((item) => {
-            if (item.product.id == product.id) {
+            if (item.product.id == product.product_id) {
               return {
                 ...item,
                 quantity: item.quantity + 1,
@@ -82,8 +82,8 @@ export default function ProductCategory({
             ...prev.items,
             {
               product: {
-                id: product.id,
-                name: product.name,
+                id: product.product_id,
+                name: product.product_name,
                 price: product.price,
                 discount: product.discount,
                 images: [product.images[0]],
@@ -100,11 +100,11 @@ export default function ProductCategory({
       return;
     }
 
-    const response = await addToCart(product.id);
-    if (response.status === 201) {
+    const response = await addToCart(product.product_id);
+    if (response.status === 200) {
       const cart = await getCart();
       setCartItems({
-        items: cart.data.items,
+        items: cart.data.cart,
         isLocal: false,
       });
       setIsOpenCart(true);
@@ -117,8 +117,8 @@ export default function ProductCategory({
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {products?.map((product) => (
           <Link
-            to={`${routes.productDetail}/${product?.id}`}
-            key={product?.id}
+            to={`${routes.productDetail}/${product?.product_id}`}
+            key={product?.product_id}
             className="h-full"
           >
             <Card
@@ -129,13 +129,13 @@ export default function ProductCategory({
                 <div className="relative h-48 w-full mb-4 flex justify-center">
                   <img
                     src={product?.images[0]}
-                    alt={product?.name}
+                    alt={product?.product_name}
                     className="rounded-t-lg"
                   />
                 </div>
                 <div>
                   <CardTitle className="text-xl font-semibold">
-                    {product?.name}
+                    {product?.product_name}
                   </CardTitle>
                   <ProductTag tag={product?.tag} />
                 </div>
@@ -155,10 +155,10 @@ export default function ProductCategory({
                   )}
                 </div>
                 <div className="flex flex-wrap gap-2 mb-2">
-                  <Badge variant="outline">{product?.category}</Badge>
+                  <Badge variant="outline">{product?.category?.category_id}</Badge>
                 </div>
                 <p className="text-sm text-gray-600">
-                  Manufacturer: {product?.manufacturer}
+                  Manufacturer: {product?.manufacturer?.manufacturer_name}
                 </p>
                 <p className="text-sm text-gray-600">Stock: {product?.stock}</p>
               </CardContent>

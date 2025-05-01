@@ -15,7 +15,7 @@ export default function DetailCategory() {
     const fetchCategory = async () => {
       const response = await getCategory(id);
       if (response.status === 200) {
-        setCategory(response.data);
+        setCategory(response.data.category);
       } else {
         console.error("Error fetching category:", response);
       }
@@ -37,10 +37,10 @@ export default function DetailCategory() {
               Categories
             </Link>
             <span>/</span>
-            <span>Category Details</span>
+            <span>Category Detail</span>
           </div>
           <div className="flex justify-between space-x-2 items-center w-full">
-            <h1 className="text-2xl font-semibold">Category Details</h1>
+            <h1 className="text-2xl font-semibold">Category Detail</h1>
             <Link to={`${routes.editCategory}/${id}`}>
               <Button variant="outline" className="mt-2">
                 <Edit className="h-4 w-4 mr-2" />
@@ -60,7 +60,7 @@ export default function DetailCategory() {
             {category?.thumbnail ? (
               <img
                 src={category?.thumbnail}
-                alt={category?.name}
+                alt={category?.category_name}
                 className="w-full h-auto rounded-lg"
               />
             ) : (
@@ -82,7 +82,7 @@ export default function DetailCategory() {
             </div>
             <div className="space-y-2">
               <h3 className="font-semibold">Category Name</h3>
-              <p>{category?.name}</p>
+              <p>{category?.category_name}</p>
             </div>
             <div className="space-y-2">
               <h3 className="font-semibold">Description</h3>

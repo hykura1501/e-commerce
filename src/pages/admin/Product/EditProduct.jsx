@@ -31,17 +31,15 @@ export default function EditProduct() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState({
-    name: "",
+    product_name: "",
     description: "",
     price: 0,
     stock: 0,
     images: [],
     newImages: [],
     discount: 0,
-    category_id: 0,
-    categoryName: "",
-    manufacturer_id: 0,
-    manufacturerName: "",
+    category: {},
+    manufacturer: {},
     tag: "New",
   });
 
@@ -57,10 +55,10 @@ export default function EditProduct() {
         getManufacturers(),
       ]);
       if (productResponse.status === 200) {
-        setProduct(productResponse.data);
+        setProduct(productResponse.data.product);
       }
       if (categoriesResponse.status === 200) {
-        setCategories(categoriesResponse.data.categories);
+        setCategories(categoriesResponse.data.tree_categories);
       }
       if (manufacturerResponse.status === 200) {
         setManufacturer(manufacturerResponse.data.manufacturers);
@@ -70,7 +68,9 @@ export default function EditProduct() {
   }, [id]);
 
   const handleSelectedCategory = (category_id) => {
-    setProduct({ ...product, category_id: category_id });
+    setProduct({ ...product, category: {
+      category_id: category_id,
+    } });
   };
 
   const handleSelectedImage = (images) => {
@@ -83,22 +83,20 @@ export default function EditProduct() {
 
   const handleSaveProduct = async () => { 
     const formData = new FormData();
-    formData.append("name", product.name);
+    formData.append("product_name", product.product_name);
     formData.append("description", product.description);
     formData.append("price", product.price);
     formData.append("stock", product.stock);
-    formData.append("category_id", product.category_id);
+    formData.append("category_id", product.category.category_id);
     formData.append("discount", product.discount);
     product?.newImages?.forEach((image) => {
-      formData.append("newImages", image);
+      formData.append("images", image);
     });
     product?.images?.forEach((image) => {
-      console.log(product.images);
-      
-      formData.append("oldImages", image.image_url);
+      formData.append("old_image_urls", image);
     });
     formData.append("tag", product.tag);
-    formData.append("manufacturer_id", product.manufacturer_id);
+    formData.append("manufacturer_id", product.manufacturer.manufacturer_id);
     const response = await updateProduct(formData, id);
     if (response.status === 200) {
       setShowDialog(true);
@@ -127,7 +125,7 @@ export default function EditProduct() {
             <span>/</span>
             <span>Edit Product</span>
           </div>
-          <h1 className="text-2xl font-semibold">Product Details</h1>
+          <h1 className="text-2xl font-semibold">Edit Product</h1>
         </div>
       </div>
 
@@ -141,9 +139,10 @@ export default function EditProduct() {
               <div className="space-y-2">
                 <Label htmlFor="product-name">Product Name</Label>
                 <Input
-                  value={product?.name}
+                  id="product-name"
+                  value={product?.product_name}
                   onChange={(e) =>
-                    setProduct({ ...product, name: e.target.value })
+                    setProduct({ ...product, product_name: e.target.value })
                   }
                 />
               </div>
@@ -234,7 +233,7 @@ export default function EditProduct() {
                   categories={categories}
                   label={"Product Category"}
                   onChange={handleSelectedCategory}
-                  selectedCategory={product?.category_id}
+                  selectedCategory={product?.category?.category_id?.toString()}
                 />
               </div>
               <div className="space-y-2">
@@ -255,9 +254,9 @@ export default function EditProduct() {
               <div className="space-y-2">
                 <Label>Manufacturer</Label>
                 <Select
-                  value={product?.manufacturer_id}
+                  value={product?.manufacturer?.manufacturer_id}
                   onValueChange={(value) =>
-                    setProduct({ ...product, manufacturer_id: value })
+                    setProduct({ ...product, manufacturer: { manufacturer_id: value } })
                   }
                 >
                   <SelectTrigger>
@@ -265,8 +264,8 @@ export default function EditProduct() {
                   </SelectTrigger>
                   <SelectContent>
                     {manufacturer.map((manufacturer) => (
-                      <SelectItem key={manufacturer.id} value={manufacturer.id}>
-                        {manufacturer.name}
+                      <SelectItem key={manufacturer.manufacturer_id} value={manufacturer.manufacturer_id}>
+                        {manufacturer.manufacturer_name}
                       </SelectItem>
                     ))}
                   </SelectContent>

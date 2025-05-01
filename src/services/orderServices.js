@@ -9,10 +9,10 @@ export const createOrder = async (order) => {
   }
 };
 
-export const getOrderHistory = async (order, date, status, page, size) => {
+export const getOrderHistory = async (order, date, status, page, per_page) => {
   try {
     const res = await api.get(
-      `/orders/history?order=${order}&date=${date}&status=${status}&page=${page}&size=${size}`
+      `/orders/history?order=${order}&date=${date}&status=${status}&page=${page}&per_page=${per_page}`
     );
     return res;
   } catch (error) {
@@ -26,11 +26,11 @@ export const getOrderHistoryById = async (
   date,
   status,
   page,
-  size
+  per_page
 ) => {
   try {
     const res = await api.get(
-      `/orders/history/${id}?order=${order}&date=${date}&status=${status}&page=${page}&size=${size}`
+      `/orders/history/${id}?order=${order}&date=${date}&status=${status}&page=${page}&per_page=${per_page}`
     );
     return res;
   } catch (error) {

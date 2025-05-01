@@ -78,14 +78,14 @@ export default function CustomerDetail() {
         getOrderHistoryById(id, order, _date, status, currentPage, paging.pageSize),
       ]);
       if (userData.status === 200) {
-        setUser(userData.data);
+        setUser(userData.data.user);
       }
       if (orderData.status === 200) {
         setOrders(orderData.data.orders);
         setPaging({
-          pageSize: orderData.data.paging.page_size,
-          totalPages: orderData.data.paging.total_page,
-          totalItems: orderData.data.paging.total_item,
+          pageSize: orderData.data.paging.per_page,
+          totalPages: orderData.data.paging.total_pages,
+          totalItems: orderData.data.paging.total_items,
         });
       }
     };

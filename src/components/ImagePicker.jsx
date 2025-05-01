@@ -92,7 +92,7 @@ function ImagePicker({
             >
               <div className="aspect-square overflow-hidden rounded-lg">
                 <img
-                  src={image?.image_url || image}
+                  src={image}
                   alt={`Preview ${index + 1}`}
                   width={300}
                   height={300}

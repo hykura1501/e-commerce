@@ -48,8 +48,6 @@ export default function DetailProduct() {
       }
       if (reviewsData.status === 200) {
         setReviews(reviewsData.data.reviews);
-        console.log(reviewsData.data.reviews);
-
         setPaging({
           totalPages: reviewsData.data.paging.total_page,
           size: reviewsData.data.paging.page_size,
@@ -75,7 +73,7 @@ export default function DetailProduct() {
             <span>/</span>
             <span>Product Details</span>
           </div>
-          <h1 className="text-3xl font-bold">{product?.name}</h1>
+          <h1 className="text-3xl font-bold">{product?.product_name}</h1>
         </div>
         <Link to={`${routes.editProduct}/${id}`}>
           <Button variant="outline">
@@ -106,7 +104,7 @@ export default function DetailProduct() {
                           <Card>
                             <CardContent className="flex aspect-square items-center justify-center p-6">
                               <img
-                                src={image.image_url}
+                                src={image}
                                 alt={`Product image ${index + 1}`}
                                 className="w-full h-full object-cover"
                               />
@@ -190,7 +188,7 @@ export default function DetailProduct() {
               <div>
                 <h3 className="font-semibold mb-2">Product Name</h3>
                 <div className="flex items-center space-x-2">
-                  <p>{product?.name}</p>
+                  <p>{product?.product_name}</p>
                   <ProductTag tag={product?.tag}/>
                 </div>
               </div>
@@ -213,12 +211,12 @@ export default function DetailProduct() {
               </div>
               <div>
                 <h3 className="font-semibold mb-2">Category</h3>
-                <Badge>{product?.categoryName}</Badge>
+                <Badge>{product?.category?.category_name}</Badge>
               </div>
               <div>
                 <h3 className="font-semibold mb-2">Manufacturer</h3>
                 <Badge className="bg-green-600 hover:bg-green-400">
-                  {product?.manufacturerName}
+                  {product?.manufacturer?.manufacturer_name}
                 </Badge>
               </div>
               <div>
